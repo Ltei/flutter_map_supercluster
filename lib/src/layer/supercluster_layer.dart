@@ -41,6 +41,7 @@ typedef ClusterWidgetBuilder = Widget Function(
 );
 
 class SuperclusterLayer extends StatefulWidget {
+
   final bool _isMutableSupercluster;
 
   /// Cluster builder
@@ -148,6 +149,12 @@ class SuperclusterLayer extends StatefulWidget {
   /// controls the animation and style of the cluster splaying.
   final ClusterSplayDelegate clusterSplayDelegate;
 
+  /// Allows to build a custom Widget below clusters
+  final Iterable<Widget> Function(
+      FlutterMapState mapState,
+      Supercluster<Marker> supercluster,
+      LatLngBounds paddedBounds)? customBuilderBelow;
+
   const SuperclusterLayer.immutable({
     Key? key,
     SuperclusterImmutableController? this.controller,
@@ -175,6 +182,7 @@ class SuperclusterLayer extends StatefulWidget {
       duration: Duration(milliseconds: 300),
       splayLineOptions: SplayLineOptions(),
     ),
+    this.customBuilderBelow,
   })  : _isMutableSupercluster = false,
         super(key: key);
 
@@ -204,6 +212,7 @@ class SuperclusterLayer extends StatefulWidget {
     this.clusterSplayDelegate = const SpreadClusterSplayDelegate(
       duration: Duration(milliseconds: 400),
     ),
+    this.customBuilderBelow,
   })  : _isMutableSupercluster = true,
         super(key: key);
 
@@ -441,6 +450,7 @@ class _SuperclusterLayerState extends State<SuperclusterLayer>
         if (supercluster == null) return const SizedBox.shrink();
 
         return Stack(children: [
+          ...?widget.customBuilderBelow?.call(mapState, supercluster, paddedBounds),
           ..._buildClustersAndMarkers(mapState, supercluster, paddedBounds)
         ]);
       },

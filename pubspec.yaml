@@ -12,8 +12,11 @@ dependencies:
   equatable: ^2.0.5
   flutter:
     sdk: flutter
-  flutter_map: ^4.0.0
-  flutter_map_marker_popup: ^4.1.0
+  flutter_map: ^5.0.0
+  flutter_map_marker_popup: 
+    git:
+      url: https://github.com/Ltei/flutter_map_marker_popup
+      ref: customBuilder
   latlong2: ^0.8.1
   provider: ^6.0.5
   supercluster: ^2.1.1

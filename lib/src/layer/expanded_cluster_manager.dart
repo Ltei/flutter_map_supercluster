@@ -96,7 +96,7 @@ class ExpandedClusterManager {
   ) {
     if (supercluster is SuperclusterImmutable<Marker>) {
       return supercluster
-          .childrenOf((layerCluster as ImmutableLayerCluster<Marker>).id)
+          .childrenOf(layerCluster as ImmutableLayerCluster<Marker>)
           .cast<ImmutableLayerPoint<Marker>>()
           .toList();
     } else if (supercluster is SuperclusterMutable<Marker>) {
